@@ -25,19 +25,19 @@ scrn = pygame.display.set_mode(size)
 
 #images
 main_bg_img = pygame.image.load('images/background/grassy_bg.jpg').convert_alpha()
-start_button_img = pygame.image.load('images/buttons/start_button.jpg').convert_alpha()
-settings_button_img = pygame.image.load('images/buttons/start_button.jpg').convert_alpha()
-exit_button_img = pygame.image.load('images/buttons/start_button.jpg').convert_alpha()
+start_button_img = pygame.image.load('images/buttons/start_button_pixel.jpg').convert_alpha()
+settings_button_img = pygame.image.load('images/buttons/settings_button_pixel.jpg').convert_alpha()
+exit_button_img = pygame.image.load('images/buttons/exit_button_pixel.jpg').convert_alpha()
 
 #image scalling
 main_bg = pygame.transform.scale(main_bg_img, (size))
 
 #buttons class
 class Button():
-    def __init__(self, x, y, image, scalebydivision):
+    def __init__(self, x, y, image, scale):
         img_width = image.get_width()
         img_height = image.get_height()
-        self.image = pygame.transform.scale(image, (int(img_width // scalebydivision), int(img_height // scalebydivision)))
+        self.image = pygame.transform.scale(image, (int(img_width * scale), int(img_height * scale)))
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)
         self.clicked = False
@@ -62,9 +62,9 @@ class Button():
         return IfClicked
 
 #buttons
-start_button = Button((scrn_width // 2), (scrn_height // 3), start_button_img, 7)
-settings_button = Button((scrn_width // 2), (scrn_height // 2), settings_button_img, 7)
-exit_button = Button((scrn_width // 2), (scrn_height / 1.5), exit_button_img, 7)
+start_button = Button((scrn_width // 2), (scrn_height // 3), start_button_img, 2)
+settings_button = Button((scrn_width // 2), (scrn_height // 2), settings_button_img, 2)
+exit_button = Button((scrn_width // 2), (scrn_height / 1.5), exit_button_img, 2)
 
 #define fonts and colors for text
 font = pygame.font.Font("fonts/MinecraftTen-VGORe.ttf", 40)
@@ -92,22 +92,25 @@ while run:
         scrn.blit(main_bg, (0, 0))
         MainMenutxt(font, txt_color)
 
-        if start_button.draw() == True:
+        if start_button.draw():
             GameScreen = 'GamePlay'
-            print('Start')
         
-        if settings_button.draw() == True:
+        if settings_button.draw():
             GameScreen = 'Settings'
         
-        if exit_button.draw() == True:
+        if exit_button.draw():
             run = False
+    
+    #Gameplay
+    if GameScreen == 'GamePlay':
+        print('in game')
 
     #Settings
     if GameScreen == 'Settings':
         print('in settings')
 
     #check if game is paused
-    if GamePaused == True:
+    if GamePaused:
         #pause menu
         print('paused')
     else:
@@ -117,7 +120,7 @@ while run:
 
     for event in pygame.event.get():
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE:
+            if event.key == pygame.K_SPACE or event.key == pygame.K_ESCAPE:
                 GamePaused = True
         if event.type == pygame.QUIT:
             run = False
