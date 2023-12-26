@@ -13,7 +13,7 @@ except ModuleNotFoundError:
 
 #Main Menu
 pygame.init()
-pygame.display.set_caption('Snake Pong (Tentative name)')
+pygame.display.set_caption('Snake Pong (PSP0101)')
 
 #screen size
 scrn_width = 800 #2560, 1920, 1600, 1366, 1280, 800, 640
@@ -24,12 +24,12 @@ size = (scrn_width, scrn_height)
 scrn = pygame.display.set_mode(size)
 
 #images
-main_bg_img = pygame.image.load('images/background/grassy_bg.jpg').convert_alpha()
-start_button_img = pygame.image.load('images/buttons/start_button_pixel.jpg').convert_alpha()
-settings_button_img = pygame.image.load('images/buttons/settings_button_pixel.jpg').convert_alpha()
-exit_button_img = pygame.image.load('images/buttons/exit_button_pixel.jpg').convert_alpha()
+main_bg_img = pygame.image.load('snake_pong/images/background/grassy_bg.jpg').convert_alpha()
+start_button_img = pygame.image.load('snake_pong/images/buttons/start_button_pixel.jpg').convert_alpha()
+settings_button_img = pygame.image.load('snake_pong/images/buttons/settings_button_pixel.jpg').convert_alpha()
+exit_button_img = pygame.image.load('snake_pong/images/buttons/exit_button_pixel.jpg').convert_alpha()
 
-#image scalling
+#image scaling
 main_bg = pygame.transform.scale(main_bg_img, (size))
 
 #buttons class
@@ -49,7 +49,7 @@ class Button():
         #mouse detection for buttons
         pos = pygame.mouse.get_pos()
         if self.rect.collidepoint(pos):
-            if pygame.mouse.get_pressed()[0] == 1 and self.clicked == False:
+            if pygame.mouse.get_pressed()[0] == 1 and not self.clicked:
                 self.clicked = True
                 IfClicked = True
 
@@ -59,7 +59,7 @@ class Button():
         #draw button
         scrn.blit(self.image, (self.rect.x, self.rect.y))
 
-        return IfClicked
+        return False 
 
 #buttons
 start_button = Button((scrn_width // 2), (scrn_height // 3), start_button_img, 2)
@@ -67,11 +67,11 @@ settings_button = Button((scrn_width // 2), (scrn_height // 2), settings_button_
 exit_button = Button((scrn_width // 2), (scrn_height / 1.5), exit_button_img, 2)
 
 #define fonts and colors for text
-font = pygame.font.Font("fonts/MinecraftTen-VGORe.ttf", 40)
+font = pygame.font.Font("snake_pong/fonts/MinecraftTen-VGORe.ttf", 40)
 txt_color = (0, 0, 0)
 
 def MainMenutxt(font, txt_color):
-    text = font.render("Snake Pong (tentative name)", True, txt_color)
+    text = font.render("Snake Pong (PSP0101)", True, txt_color)
 
     #text centering
     text_rect = text.get_rect(center = (scrn_width // 2, scrn_height // 5))
