@@ -1,6 +1,8 @@
 #checks if pygame is installed or not and if not downloads it automatically
 import pip
 import time
+import sys
+import random
 
 def install(module):
     pip.main(['install', module])
@@ -13,7 +15,7 @@ except ModuleNotFoundError:
 
 #Main Menu
 pygame.init()
-pygame.display.set_caption('Snake Pong (PSP0101)')
+pygame.display.set_caption('Snake Pong (Tentative name)')
 
 #screen size
 scrn_width = 800 #2560, 1920, 1600, 1366, 1280, 800, 640
@@ -67,11 +69,11 @@ settings_button = Button((scrn_width // 2), (scrn_height // 2), settings_button_
 exit_button = Button((scrn_width // 2), (scrn_height / 1.5), exit_button_img, 2)
 
 #define fonts and colors for text
-font = pygame.font.Font("snake_pong/fonts/MinecraftTen-VGORe.ttf", 40)
+font = pygame.font.Font("fonts/MinecraftTen-VGORe.ttf", 40)
 txt_color = (0, 0, 0)
 
 def MainMenutxt(font, txt_color):
-    text = font.render("Snake Pong (PSP0101)", True, txt_color)
+    text = font.render("Snake Pong (tentative name)", True, txt_color)
 
     #text centering
     text_rect = text.get_rect(center = (scrn_width // 2, scrn_height // 5))
