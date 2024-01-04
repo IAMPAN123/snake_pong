@@ -99,10 +99,10 @@ class SnakeGame:
         score_text = game.font.render(f"Score: {game.score}", True, BLACK)
         replay_text = game.font.render("Press R to replay", True, BLACK)
 
-        # Draw background image
+        #draw background image
         game.screen.blit(game.background_image, (0, 0))
 
-        # Calculate center positions for text elements
+        #calculate center positions for text elements
         game_over_x = game.width // 2 - game_over_text.get_width() // 2
         game_over_y = game.height // 2 - game_over_text.get_height() // 2 - 20
 
@@ -112,7 +112,7 @@ class SnakeGame:
         replay_x = game.width // 2 - replay_text.get_width() // 2
         replay_y = game.height // 2 - replay_text.get_height() // 2 + 60
 
-        # Draw game over elements at center positions
+        #draw game over elements at center positions
         game.screen.blit(game_over_text, (game_over_x, game_over_y))
         game.screen.blit(score_text, (score_x, score_y))
         game.screen.blit(replay_text, (replay_x, replay_y))
@@ -157,33 +157,33 @@ class SnakeGame:
                     elif event.key == pygame.K_RIGHT and game.direction != LEFT:
                         game.direction = RIGHT
 
-            # Move the snake
+            #Move snake
             x, y = game.snake[0]
             x += game.direction[0] * game.snake_size
             y += game.direction[1] * game.snake_size
 
-            # Check for collisions
+            #collision checker
             if (x, y) in game.snake[1:]:
                 game.game_over()
 
-            # Check if the snake ate the food
+            #check if the snake ate the food
             if (x, y) == game.food:
                 game.score += 1
                 game.food = game.foodspawn()
             else:
                 game.snake.pop()
 
-            # Check if the snake hit the walls
+            #check if the snake hit the walls
             if not (0 <= x < game.width and 0 <= y < game.height):
                 game.game_over()
 
-            # Update snake position
+            #update snake position
             game.snake.insert(0, (x, y))
 
-            # Draw background image
+            #draw background image
             game.screen.blit(game.background_image, (0, 0))
 
-            # Draw everything
+            #draw everything
             game.draw_snake()
             game.draw_food()
             game.draw_score()
