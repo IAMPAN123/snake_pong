@@ -1,3 +1,14 @@
+# *********************************************************
+# Program: main.py
+# Course: PSP0101 PROBLEM SOLVING AND PROGRAM DESIGN
+# Class: TL12
+# Year: 2023/24 Trimester 1
+# Names: PAN_HAN_CHENG | LEE_JUN_YAN | LEE_JIA_XIAN
+# IDs: 1231100928 | 1231100865 | 1231100945
+# Emails: 1231100928@student.mmu.edu.my | 1231100865@student.mmu.edu.my | 1231100945@student.mmu.edu.my
+# Phones: 0166137037 | 0128500415 | 0178663768
+# *********************************************************
+
 #checks if pygame is installed or not and if not downloads it automatically
 import pip
 import time
@@ -24,6 +35,12 @@ size = (scrn_width, scrn_height)
 
 #screen
 scrn = pygame.display.set_mode(size)
+
+#music
+MusicRun = True
+if MusicRun == True:
+    #pygame.mixer.music.load('a')
+    pygame.mixer.music.set_volume(1)
 
 #images
 main_bg_img = pygame.image.load('images/background/grassy_bg.jpg').convert_alpha()
@@ -62,23 +79,38 @@ class Button():
         scrn.blit(self.image, (self.rect.x, self.rect.y))
 
         return IfClicked
-
+    
 #buttons
 start_button = Button((scrn_width // 2), (scrn_height // 3), start_button_img, 2)
 settings_button = Button((scrn_width // 2), (scrn_height // 2), settings_button_img, 2)
 exit_button = Button((scrn_width // 2), (scrn_height / 1.5), exit_button_img, 2)
+back_button = Button
+resume_button = Button
+fullscrn_button = Button
+windowed_fullscrn_button = Button
+windowed_button = Button
+
 
 #define fonts and colors for text
-font = pygame.font.Font("fonts/MinecraftTen-VGORe.ttf", 60)
+Menufont = pygame.font.Font("fonts/MinecraftTen-VGORe.ttf", 60)
+Settingsfont = pygame.font.Font("fonts/MinecraftTen-VGORe.ttf", 40)
 txt_color = (0, 0, 0)
 
-def MainMenutxt(font, txt_color):
-    text = font.render("Snake Pong", True, txt_color)
+def txtforall(txt, font, txt_color, x_scale, y_scale):
+    text = font.render(txt, True, txt_color)
 
     #text centering
-    text_rect = text.get_rect(center = (scrn_width // 2, scrn_height // 5))
+    text_rect = text.get_rect(center = (scrn_width // x_scale, scrn_height // y_scale))
 
     scrn.blit(text, text_rect)
+
+
+#settings menu
+def settings_menu():
+    txtforall('Screen Size', Settingsfont, txt_color, 5, 6)
+    txtforall('Music', Settingsfont, txt_color, 5, 2.5)
+    txtforall('Sound', Settingsfont, txt_color, 5, 1.5)
+    pass #put window options, music and sound settings and also controls
 
 #Game state
 GamePaused = False
@@ -92,7 +124,7 @@ while run:
 
     if GameScreen == 'MainMenu':
         scrn.blit(main_bg, (0, 0))
-        MainMenutxt(font, txt_color)
+        txtforall('Snake Pong', Menufont, txt_color, 2, 5)
 
         if start_button.draw():
             GameScreen = 'GamePlay'
@@ -109,21 +141,26 @@ while run:
 
     #Settings
     if GameScreen == 'Settings':
-        print('in settings')
+        settings_menu()
 
     #check if game is paused
-    if GamePaused:
-        #pause menu
-        print('paused')
-    else:
-        pass
+    if GameScreen == 'GamePaused':
+        scrn.blit() #add green semi transparent screen
+
+        if resume_button.draw():
+            GameScreen = 'GamePlay'
+
+        if settings_button():
+            GameScreen == 'Settings'
+
+        if exit_button():
+            run = False
 
     #event handler
-
     for event in pygame.event.get():
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE or event.key == pygame.K_ESCAPE:
-                GamePaused = True
+                GameScreen = 'GamePaused'
         if event.type == pygame.QUIT:
             run = False
     
