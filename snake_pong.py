@@ -14,6 +14,7 @@ import pip
 import time
 import sys
 import random
+import subprocess
 
 def install(module):
     pip.main(['install', module])
@@ -43,7 +44,7 @@ if MusicRun == True:
     pygame.mixer.music.set_volume(1)
 
 #images
-main_bg_img = pygame.image.load('images/background/grassy_bg.jpg').convert_alpha()
+main_bg_img = pygame.image.load('images\_background\grassy_bg.jpg').convert_alpha()
 start_button_img = pygame.image.load('images/buttons/start_button_pixel.jpg').convert_alpha()
 settings_button_img = pygame.image.load('images/buttons/settings_button_pixel.jpg').convert_alpha()
 exit_button_img = pygame.image.load('images/buttons/exit_button_pixel.jpg').convert_alpha()
@@ -112,6 +113,11 @@ def settings_menu():
     txtforall('Sound', Settingsfont, txt_color, 5, 1.5)
     pass #put window options, music and sound settings and also controls
 
+
+#Running the game file
+def run_game_file():
+    subprocess.run(['python', 'SnakePongMainGame.py'])
+
 #Game state
 GamePaused = False
 GameScreen = 'MainMenu'
@@ -119,6 +125,7 @@ GameScreen = 'MainMenu'
 #Game loop
 
 run = True
+no_repeat = 1
 
 while run:
 
@@ -137,7 +144,9 @@ while run:
     
     #Gameplay
     if GameScreen == 'GamePlay':
-        print('in game')
+        if no_repeat == 1:
+            run_game_file()
+            no_repeat += 1
 
     #Settings
     if GameScreen == 'Settings':
