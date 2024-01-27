@@ -34,8 +34,9 @@ scrn_width = 800 #2560, 1920, 1600, 1366, 1280, 800, 640
 scrn_height = 600 #1440, 1080, 900, 768, 720, 600, 480
 size = (scrn_width, scrn_height)
 
-#screen
+#screen and surface
 scrn = pygame.display.set_mode(size)
+surf = pygame.Surface((scrn_width, scrn_height), pygame.SRCALPHA)
 
 #music
 MusicRun = True
@@ -85,8 +86,7 @@ class Button():
 start_button = Button((scrn_width // 2), (scrn_height // 3), start_button_img, 2)
 settings_button = Button((scrn_width // 2), (scrn_height // 2), settings_button_img, 2)
 exit_button = Button((scrn_width // 2), (scrn_height / 1.5), exit_button_img, 2)
-back_button = Button
-resume_button = Button
+resume_button = Button((scrn_width // 2), (scrn_height // 3), resume_button_img, 2)
 fullscrn_button = Button
 windowed_fullscrn_button = Button
 windowed_button = Button
@@ -119,7 +119,7 @@ def run_game_file():
     subprocess.run(['python', 'SnakePongMainGame.py'])
 
 #Game state
-GamePaused = False
+isPaused = False
 GameScreen = 'MainMenu'
 
 #Game loop
@@ -152,24 +152,11 @@ while run:
     if GameScreen == 'Settings':
         settings_menu()
 
-    #check if game is paused
-    if GameScreen == 'GamePaused':
-        scrn.blit() #add green semi transparent screen
-
-        if resume_button.draw():
-            GameScreen = 'GamePlay'
-
-        if settings_button():
-            GameScreen == 'Settings'
-
-        if exit_button():
-            run = False
-
     #event handler
     for event in pygame.event.get():
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE or event.key == pygame.K_ESCAPE:
-                GameScreen = 'GamePaused'
+            if event.key == pygame.K_SPACE:
+                pass
         if event.type == pygame.QUIT:
             run = False
     

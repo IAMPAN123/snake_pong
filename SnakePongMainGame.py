@@ -1,5 +1,6 @@
 import pygame
 import sys
+from snake_pong import Button
 
 # Constants
 scrn_width = 800
@@ -9,6 +10,7 @@ snake_size = 20
 FPS_snake = 15
 FPS_paddle = 70 
 
+is_Paused = False
 PADDLE_WIDTH = 20
 PADDLE_HEIGHT = 80
 
@@ -35,6 +37,7 @@ class SnakeGame:
         # Display Surfaces
         self.screen = pygame.display.set_mode((self.width, self.height))
         pygame.display.set_caption("SnakePong")
+        self.surf = pygame.Surface((scrn_width, scrn_height), pygame.SRCALPHA)
 
         # FPS settings
         self.FPS_snake = FPS_snake
@@ -87,6 +90,18 @@ class SnakeGame:
             # Spawn in center of screen
             spawn_position = [(self.width // 2), (self.height // 2)]
             return spawn_position
+        
+    def game_paused(self):
+        paused_text = self.font.render('Game is Paused', True, BLACK)
+
+        #add green semi transparent screen
+        self.screen.blit(self.surf, (0, 0))
+        pygame.draw.rect(self.surf, (0, 255, 0, 40), [0, 0, scrn_width, scrn_height])
+        
+        paused_x = self.width // 2 - paused_text.get_width() // 2
+        paused_y = self.height // 2 - paused_text.get_height() // 2 - 20
+
+        self.screen.blit(paused_text, (paused_x, paused_y))
 
     def game_over(self):
         game_over_text = self.font.render("Game Over", True, BLACK)
@@ -154,64 +169,73 @@ class SnakeGame:
                     pygame.quit()
                     sys.exit()
                 elif event.type == pygame.KEYDOWN:
-                    # SnaKe Control
-                    if event.key == pygame.K_UP: self.direction = UP
-                    elif event.key == pygame.K_DOWN: self.direction = DOWN
-                    elif event.key == pygame.K_LEFT: self.direction = LEFT
-                    elif event.key == pygame.K_RIGHT: self.direction = RIGHT
+                    global is_Paused
+                    #Pausing the game
+                    if event.key == pygame.K_SPACE:
+                        if is_Paused == False:
+                            is_Paused = True
+                        elif is_Paused == True:
+                            is_Paused = False
+                    if is_Paused == False:
+                        # Snake Control
+                        if event.key == pygame.K_UP: self.direction = UP
+                        elif event.key == pygame.K_DOWN: self.direction = DOWN
+                        elif event.key == pygame.K_LEFT: self.direction = LEFT
+                        elif event.key == pygame.K_RIGHT: self.direction = RIGHT
 
-                    # Paddle Control
-                    elif event.key == pygame.K_w:
-                        self.paddle_left.move_up()
-                        self.paddle_right.move_up()
-                    elif event.key == pygame.K_s:
-                        self.paddle_left.move_down()
-                        self.paddle_right.move_down()
+                        # Paddle Control
+                        elif event.key == pygame.K_w:
+                            self.paddle_left.move_up()
+                            self.paddle_right.move_up()
+                        elif event.key == pygame.K_s:
+                            self.paddle_left.move_down()
+                            self.paddle_right.move_down()
 
-            # Move the snake
-            x, y = self.snake[0]
-            x += self.direction[0] * self.snake_size
-            y += self.direction[1] * self.snake_size
+            if is_Paused == False:
+                # Move the snake
+                x, y = self.snake[0]
+                x += self.direction[0] * self.snake_size
+                y += self.direction[1] * self.snake_size
 
-            # Wrap around if the snake hits the top or bottom boundary
-            if y < 0:
-                y = self.height - self.snake_size
-            elif y >= self.height:
-                y = 0
+                # Wrap around if the snake hits the top or bottom boundary
+                if y < 0:
+                    y = self.height - self.snake_size
+                elif y >= self.height:
+                    y = 0
 
-            # Check for collisions with paddles
-            if self.check_paddle_collision(x, y):
-                self.snake = self.snake[:-1]  # Reduce the snake length by 1
-                x, y = self.snake_spawn()
-                self.snake_lives -= 1  # Decrease snake lives
-                if self.snake_lives == 0:
-                    self.game_over()
+                # Check for collisions with paddles
+                if self.check_paddle_collision(x, y):
+                    self.snake = self.snake[:-1]  # Reduce the snake length by 1
+                    x, y = self.snake_spawn()
+                    self.snake_lives -= 1  # Decrease snake lives
+                    if self.snake_lives == 0:
+                        self.game_over()
 
-            # Check for collision with left and right boundaries
-            if not (0 <= x < self.width):
+                # Check for collision with left and right boundaries
+                if not (0 <= x < self.width):
 
-                # Respawn snake at the center
-                x, y = self.snake_spawn()
+                    # Respawn snake at the center
+                    x, y = self.snake_spawn()
 
-                # Increase paddle height by 20
-                global PADDLE_HEIGHT
-                PADDLE_HEIGHT += 20
+                    # Increase paddle height by 20
+                    global PADDLE_HEIGHT
+                    PADDLE_HEIGHT += 20
 
-                # Update the height of the paddles
-                self.paddle_left.image = pygame.Surface((PADDLE_WIDTH, PADDLE_HEIGHT))
-                self.paddle_left.image.fill(BLUE)
-                self.paddle_right.image = pygame.Surface((PADDLE_WIDTH, PADDLE_HEIGHT))
-                self.paddle_right.image.fill(BLUE)
+                    # Update the height of the paddles
+                    self.paddle_left.image = pygame.Surface((PADDLE_WIDTH, PADDLE_HEIGHT))
+                    self.paddle_left.image.fill(BLUE)
+                    self.paddle_right.image = pygame.Surface((PADDLE_WIDTH, PADDLE_HEIGHT))
+                    self.paddle_right.image.fill(BLUE)
 
-                # Decrease paddle lives
-                self.paddle_lives -= 1
-                if self.paddle_lives <= 0:
-                    PADDLE_HEIGHT = 80
-                    self.game_over()
+                    # Decrease paddle lives
+                    self.paddle_lives -= 1
+                    if self.paddle_lives <= 0:
+                        PADDLE_HEIGHT = 80
+                        self.game_over()
 
-            # update snake position
-            new_head = (x, y)
-            self.snake = [new_head] + self.snake[:-1]  # Update the snake's position without increasing its length
+                # update snake position
+                new_head = (x, y)
+                self.snake = [new_head] + self.snake[:-1]  # Update the snake's position without increasing its length
 
             # draw background image
             self.screen.blit(self.background_image, (0, 0))
@@ -233,6 +257,9 @@ class SnakeGame:
             self.screen.blit(snake_lives_text, (10, 10))
             self.screen.blit(paddle_lives_text, (self.width - paddle_lives_text.get_width() - 10, 10))
 
+            #pause screen
+            if is_Paused:
+                self.game_paused()
 
             pygame.display.flip()
 
