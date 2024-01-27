@@ -112,11 +112,15 @@ def settings_menu():
     txtforall('Sound', Settingsfont, txt_color, 5, 1.5)
     pass #put window options, music and sound settings and also controls
 
-#Game state
+# Game state
 isPaused = False
 GameScreen = 'MainMenu'
 
-#Game loop
+# Countdown variables
+countdown_duration = 3  # Adjust the duration of the countdown in seconds
+countdown_start_time = 0
+
+# Game loop
 spg = sp()
 run = True
 no_repeat = 1
@@ -128,16 +132,31 @@ while run:
         txtforall('Snake Pong', Menufont, txt_color, 2, 5)
 
         if start_button.draw():
-            GameScreen = 'GamePlay'
+            GameScreen = 'Countdown'
+            countdown_start_time = time.time()
         
         if settings_button.draw():
             GameScreen = 'Settings'
         
         if exit_button.draw():
             run = False
+
+    elif GameScreen == 'Countdown':
+        #Calculate the remaining time in the countdown
+        remaining_time = countdown_duration - (time.time() - countdown_start_time)
+
+        # Display the countdown on the screen
+        if remaining_time > 0:
+            countdown_text = Menufont.render(str(int(remaining_time) + 1), True, txt_color)
+            countdown_x = scrn_width // 2 - countdown_text.get_width() // 2
+            countdown_y = scrn_height // 2 - countdown_text.get_height() // 2
+            scrn.blit(main_bg, (0, 0))
+            scrn.blit(countdown_text, (countdown_x, countdown_y))
+        else:
+            GameScreen = 'GamePlay'  # Switch to gameplay once the countdown is over
     
     #Gameplay
-    if GameScreen == 'GamePlay':
+    elif GameScreen == 'GamePlay':
         spg.run()
 
     #Settings
