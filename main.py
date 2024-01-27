@@ -14,7 +14,7 @@ import pip
 import time
 import sys
 import random
-import subprocess
+from main_game_code import SnakeGame as sp
 
 def install(module):
     pip.main(['install', module])
@@ -112,17 +112,12 @@ def settings_menu():
     txtforall('Sound', Settingsfont, txt_color, 5, 1.5)
     pass #put window options, music and sound settings and also controls
 
-
-#Running the game file
-def run_game_file():
-    subprocess.run(['python', 'SnakePongMainGame.py'])
-
 #Game state
 isPaused = False
 GameScreen = 'MainMenu'
 
 #Game loop
-
+spg = sp()
 run = True
 no_repeat = 1
 
@@ -143,9 +138,7 @@ while run:
     
     #Gameplay
     if GameScreen == 'GamePlay':
-        if no_repeat == 1:
-            run_game_file()
-            no_repeat += 1
+        spg.run()
 
     #Settings
     if GameScreen == 'Settings':

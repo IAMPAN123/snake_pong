@@ -1,6 +1,5 @@
 import pygame
 import sys
-from snake_pong import Button
 
 # Constants
 scrn_width = 800
@@ -305,7 +304,3 @@ class Paddle(pygame.sprite.Sprite):
 # Initialize pygame
 pygame.init()
 pygame.mixer.init()
-
-# Create an instance of the SnakeGame class and run the game
-snake_game = SnakeGame()
-snake_game.run()
