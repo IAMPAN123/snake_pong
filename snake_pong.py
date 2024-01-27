@@ -86,7 +86,6 @@ class Button():
 start_button = Button((scrn_width // 2), (scrn_height // 3), start_button_img, 2)
 settings_button = Button((scrn_width // 2), (scrn_height // 2), settings_button_img, 2)
 exit_button = Button((scrn_width // 2), (scrn_height / 1.5), exit_button_img, 2)
-resume_button = Button((scrn_width // 2), (scrn_height // 3), resume_button_img, 2)
 fullscrn_button = Button
 windowed_fullscrn_button = Button
 windowed_button = Button
