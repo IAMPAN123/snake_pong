@@ -1,6 +1,5 @@
 import os
 import json
-import pygame
 
 def load(savefile):
     with open(os.path.join(savefile), 'r+') as file:

@@ -30,6 +30,10 @@ save = load_save()
 win_size = save[0]
 volume = save[1]
 
+def valpass():
+    v = volume
+    return v
+
 #Main Menu
 pygame.init()
 pygame.mixer.init()
@@ -193,7 +197,7 @@ countdown_start_time = 0
 
 # Game loop
 vol = music_txt_box()
-spg = sp(v)
+spg = sp()
 run = True
 
 while run:
@@ -257,6 +261,8 @@ while run:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 GameScreen = 'MainMenu'
+            if event.key == pygame.K_s:
+                write_save([win_size, volume])
         if event.type == pygame.VIDEORESIZE:
             if fullscrn == False:
                 scrn_width = event.w

@@ -24,8 +24,14 @@ DOWN = (0, 1)
 LEFT = (-1, 0)
 RIGHT = (1, 0)
 
+imported = False
+if imported:
+    v = valpass()
+else:
+    v =1
+
 class SnakeGame:
-    def __init__(self, v):
+    def __init__(self):
         
         # Game Window Settings
         self.width = scrn_width
@@ -309,3 +315,6 @@ os.environ['SDL_VIDEO_CENTERED'] = '1'
 info = pygame.display.Info()
 scrn_width = info.current_w
 scrn_height = info.current_h
+
+from main import valpass
+imported = True
