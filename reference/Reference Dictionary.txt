@@ -1,3 +1,5 @@
+Lee Jun Yan
+
 github
 https://github.com/
 
@@ -12,6 +14,23 @@ https://www.geeksforgeeks.org/snake-game-in-python-using-pygame-module/
 
 snake_game_ref3-link
 https://www.youtube.com/watch?v=_-KjEgCLQFw&t=325s
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Pan Han Cheng
+
+w3school
+www/w3schools.com
+
+Youtube links
+https://www.youtube.com/watch?v=1UCaiX8ESsQ&t=1071s (file management)
+https://www.youtube.com/watch?v=2iyx8_elcYg (menu)
+https://www.youtube.com/watch?v=U0a83bRJw6o (text box with user input)
+https://www.youtube.com/watch?v=G8MYGDf_9ho (button)
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Marcus Lee Jia Xian
 
 pong_game_ref
 https://youtu.be/Qf3-aDXG8q4?si=DrAeBzBFTgMMHeNl
