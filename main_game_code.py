@@ -49,7 +49,7 @@ class SnakeGame:
         self.font = pygame.font.Font(None, 36)
 
         # Music
-        pygame.mixer.music.load('bgm\_rickrolltest.mp3')
+        pygame.mixer.music.load('bgm\SUMMER TRIANGLE.mp3')
         pygame.mixer.music.set_volume(v)  # Adjust the volume as needed
 
         # Plays bgm

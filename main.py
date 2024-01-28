@@ -46,8 +46,10 @@ monitor_w = info.current_w
 monitor_h = info.current_h
 scrn = pygame.display.set_mode((scrn_width, scrn_height), pygame.RESIZABLE)
 if win_size == 'fullscreen':
+    fullscrn = True
     scrn = pygame.display.set_mode((scrn_width, scrn_height), pygame.FULLSCREEN)
 elif win_size == 'windowed_fullscreen':
+    fullscrn = False
     scrn = pygame.display.set_mode((monitor_w - 10, monitor_h - 50), pygame.RESIZABLE)
     scrn_width = monitor_w - 10
     scrn_height = monitor_h - 50
@@ -55,7 +57,7 @@ surf = pygame.Surface((scrn_width, scrn_height), pygame.SRCALPHA)
 
 #music
 v = volume / 100
-pygame.mixer.music.load('bgm\_rickrolltest.mp3')
+pygame.mixer.music.load('bgm/Nujabes - Aruarian Dance.mp3')
 pygame.mixer.music.set_volume(v)
 pygame.mixer.music.play(-1)
 
@@ -129,7 +131,7 @@ class setting():
 class music_txt_box():
     def __init__(self):
         self.val = str(volume)
-        self.txt_box = pygame.Rect(scrn_width // 2, scrn_height // 1.5, 80, 60)
+        self.txt_box = pygame.Rect(scrn_width // 2, scrn_height // 1.5, 80, 50)
         self.tb_active = False
         self.tb_color = pygame.Color('black')
 
@@ -247,7 +249,6 @@ while run:
             scrn_width = monitor_w - 10
             scrn_height = monitor_h - 50
             win_size = 'windowed_fullscreen'
-            print(win_size)
 
         vol.draw()
 
@@ -258,7 +259,9 @@ while run:
                 GameScreen = 'MainMenu'
         if event.type == pygame.VIDEORESIZE:
             if fullscrn == False:
-                scrn = pygame.display.set_mode((scrn_width, scrn_height), pygame.RESIZABLE)
+                scrn_width = event.w
+                scrn_height = event.h
+                scrn = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
         if event.type == pygame.QUIT:
             write_save([win_size, volume])
             run = False
