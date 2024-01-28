@@ -1,9 +1,8 @@
 import pygame
 import sys
+import os
 
 # Constants
-scrn_width = 800
-scrn_height = 600
 tile_size = 20
 snake_size = 20
 FPS_snake = 15
@@ -26,7 +25,7 @@ LEFT = (-1, 0)
 RIGHT = (1, 0)
 
 class SnakeGame:
-    def __init__(self):
+    def __init__(self, v):
         
         # Game Window Settings
         self.width = scrn_width
@@ -34,7 +33,7 @@ class SnakeGame:
         self.grid_size = tile_size # grid sizes for the game
 
         # Display Surfaces
-        self.screen = pygame.display.set_mode((self.width, self.height))
+        self.screen = pygame.display.set_mode((self.width, self.height), pygame.RESIZABLE)
         pygame.display.set_caption("SnakePong")
         self.surf = pygame.Surface((scrn_width, scrn_height), pygame.SRCALPHA)
 
@@ -51,7 +50,7 @@ class SnakeGame:
 
         # Music
         pygame.mixer.music.load('bgm\_rickrolltest.mp3')
-        pygame.mixer.music.set_volume(0.5)  # Adjust the volume as needed
+        pygame.mixer.music.set_volume(v)  # Adjust the volume as needed
 
         # Plays bgm
         pygame.mixer.music.play(-1)
@@ -175,6 +174,7 @@ class SnakeGame:
                             is_Paused = True
                         elif is_Paused == True:
                             is_Paused = False
+
                     if is_Paused == False:
                         # Snake Control
                         if event.key == pygame.K_UP: self.direction = UP
@@ -304,3 +304,8 @@ class Paddle(pygame.sprite.Sprite):
 # Initialize pygame
 pygame.init()
 pygame.mixer.init()
+
+os.environ['SDL_VIDEO_CENTERED'] = '1'
+info = pygame.display.Info()
+scrn_width = info.current_w
+scrn_height = info.current_h
